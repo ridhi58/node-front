@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import Home from './Home'
+import Login from './login'
+import Products from './Products'
+import Header from './Header'
+import Service from './Service'
+import { BrowserRouter, Route, Switch, Redirect, Router } from "react-router-dom";
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+ 
+  const local = localStorage.getItem("protect")
+  
+  const PrivateRoute = ({ component , path})=>{
+  if(local!=null)
+  {      
+         return <Route 
+         path = {path}
+        component = {component}
+         />
+  }
+  else{
+
+    return <Redirect to = '/Login'/>
+
+  }
+  }
+  return(
+    <div>
+      <Header pass = {local} />
+     <BrowserRouter>
+       <Switch>
+         <Route exact path = "/"> <Home/></Route>
+          <Route exact path = "/Login"><Login/></Route>
+         <PrivateRoute 
+         path = "/Products"
+         component = {Products}
+         />
+          <PrivateRoute 
+         path = "/Services"
+         component = {Service}
+         />
+
+
+       </Switch>
+       </BrowserRouter>
     </div>
-  );
+)
 }
 
 export default App;
