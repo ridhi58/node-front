@@ -1,6 +1,7 @@
 import React , {useState , useEffect}from "react"
 import './App.css';
 import axios from 'axios'
+import Cookies from 'js-cookie';
 import {useHistory } from "react-router-dom";
 
 
@@ -13,6 +14,8 @@ const[email, setEmail] = useState("")
 const[pass , setPass] = useState("")
 const[lName , setLname] = useState("")
 const[lPass , setLpass] = useState("")
+const url = 'https://nodes1-app.herokuapp.com/'
+// const url = 'http://localhost:5000/'
 
 const handleSubmit = (e)=>{
   e.preventDefault()
@@ -21,7 +24,7 @@ const handleSubmit = (e)=>{
     email:email,  
     password:pass
   }
-axios.post('https://nodes1-app.herokuapp.com/users', obj).then((res)=>{
+axios.post(url +'users', obj).then((res)=>{
 alert("registration succesful")}
 ).catch((e)=>{
   alert("already registered")
@@ -34,15 +37,17 @@ e.preventDefault()
     email:lName,
     password:lPass
   }
- axios.post('https://nodes1-app.herokuapp.com/login' , obj, {withCredentials:true}).then((res)=>{
+ axios.post(url + 'login' , obj, {withCredentials:true}).then((res)=>{
  alert("success")
- 
+ console.log(document.cookie)
+//  console.log(res.data.token)
+  
  if(document.cookie!=null){
- localStorage.setItem('protect' , "true")
+ Cookies.set("session", true)
  }
  
- history.push("/");
- window.location.reload()
+   history.push("/");
+   window.location.reload()
  }  
  ).catch((e)=>{
   alert("invalid login")

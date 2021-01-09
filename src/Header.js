@@ -1,16 +1,21 @@
 import React from "react";
 import axios from 'axios'
+import Cookies from 'js-cookie';
 
 export default function Header(props)
 {
+    const url = 'https://nodes1-app.herokuapp.com/logout'
+    //const url = 'http://localhost:5000/logout'
+
     const handleLogout = (e)=>{
      
         e.preventDefault()
-        axios.post('https://nodes1-app.herokuapp.com/logout',{}, {withCredentials:true}).then(()=>{
+        axios.post(url,{}, {withCredentials:true}).then(()=>{
+        Cookies.remove("session")
         alert("succesfully logout")
         
-        localStorage.clear()
-        console.log("checkout cookie",localStorage.getItem('protect'))
+       
+       
        window.location.reload()
         }
         ).catch((e)=>{
@@ -24,7 +29,7 @@ export default function Header(props)
            
             
             <a href ="/">Home</a>
-            {props.pass!=null?
+            {props.pass?
             <form onSubmit = {handleLogout}>
             <button>Logout</button>
             </form>:

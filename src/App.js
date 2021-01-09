@@ -4,13 +4,15 @@ import Login from './login'
 import Products from './Products'
 import Header from './Header'
 import Service from './Service'
+import Cookies from 'js-cookie';
 import { BrowserRouter, Route, Switch, Redirect, Router } from "react-router-dom";
 
 
 
 function App() {
  
-  const local = localStorage.getItem("protect")
+  // const local = document.cookie;
+  const local = Cookies.get("session")
   
   const PrivateRoute = ({ component , path})=>{
   if(local!=null)
